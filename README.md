@@ -48,7 +48,8 @@ source\file2.txt,target\file2.txt
        $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
        $OpenFileDialog.Filter = "CSV files (*.csv)|*.csv"
        $OpenFileDialog.ShowHelp = $true
-       # Create a hidden form to make the dialog topmost
+
+       # Create a hidden form to make the dialog topmost and showing it as active window otherwise the form might go to the background and might be visible only once you minimize all active windows.
        $form = New-Object System.Windows.Forms.Form
        $form.TopMost = $true
        $form.StartPosition = "CenterScreen"
@@ -69,6 +70,7 @@ source\file2.txt,target\file2.txt
        param ([string]$InitialDirectory)
        $FolderBrowserDialog = New-Object System.Windows.Forms.FolderBrowserDialog
        $FolderBrowserDialog.SelectedPath = $InitialDirectory
+
        # Create a hidden form to make the dialog topmost
        $form = New-Object System.Windows.Forms.Form
        $form.TopMost = $true
@@ -92,6 +94,7 @@ source\file2.txt,target\file2.txt
        exit
    }
    $csvDirectory = [System.IO.Path]::GetDirectoryName($csvFilePath)
+   #by default the log file directory will be selected as same directory from where CSV file was selected.
    $logDirectoryPath = Select-FolderDialog -InitialDirectory $csvDirectory
    if (-not $logDirectoryPath) {
        Write-Host "No log directory selected. Exiting."
